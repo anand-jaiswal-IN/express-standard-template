@@ -1,5 +1,5 @@
 {
-  "name": "standard-apis",
+  "name": "express-standard-template",
   "version": "1.0.0",
   "description": "An Express.js template with TypeScript, ESLint and Prettier",
   "type": "module",
@@ -24,15 +24,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anand-jaiswal-IN/standard-apis.git"
+    "url": "git+https://github.com/anand-jaiswal-IN/express-standard-template.git"
   },
   "keywords": [],
   "author": "Anand Jaiswal",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/anand-jaiswal-IN/standard-apis/issues"
+    "url": "https://github.com/anand-jaiswal-IN/express-standard-template/issues"
   },
-  "homepage": "https://github.com/anand-jaiswal-IN/standard-apis#readme",
+  "homepage": "https://github.com/anand-jaiswal-IN/express-standard-template#readme",
   "imports": {
     "#*": "./src/*"
   },
