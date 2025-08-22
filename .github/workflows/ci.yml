@@ -13,33 +13,35 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Setup Node.js using .nvmrc
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: ".nvmrc"
           cache: "npm"
 
-      # 3. Install dependencies
+      # Install dependencies safely
       - name: Install dependencies
-        run: npm ci
+        run: npm ci || npm install
 
-      # 4. TypeScript type checking
+      # Fix missing Rollup binary issue
+      - name: Ensure Rollup native binary exists
+        run: npm install @rollup/rollup-linux-x64-gnu --no-save
+
+      # Type check
       - name: Run TypeScript type checking
         run: npm run type-check
 
-      # 5. Lint code (fail if issues found)
+      # Lint
       - name: Run ESLint
         run: npm run lint
 
-      # 6. Check Prettier formatting
+      # Check Prettier formatting
       - name: Check Prettier formatting
         run: npm run format:check
 
-      # 7. Run tests with Vitest in CI mode
+      # Run tests with Vitest
       - name: Run Vitest tests
         run: npm run test:run -- --reporter=verbose --coverage
