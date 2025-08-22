@@ -4,38 +4,42 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   quality-checks:
     runs-on: ubuntu-latest
 
     steps:
+      # 1. Checkout repository
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # 2. Setup Node.js using .nvmrc
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version-file: ".nvmrc"
           cache: "npm"
 
+      # 3. Install dependencies
       - name: Install dependencies
         run: npm ci
 
-      - name: Run tests
-        run: npm run test:run
-
+      # 4. TypeScript type checking
       - name: Run TypeScript type checking
         run: npm run type-check
 
-      - name: Run ESLint and fix
-        run: npm run lint:fix
-
-      - name: Format with Prettier
-        run: npm run format
-
-      - name: Check for remaining ESLint errors
+      # 5. Lint code (fail if issues found)
+      - name: Run ESLint
         run: npm run lint
 
-      - name: Check for remaining formatting issues
+      # 6. Check Prettier formatting
+      - name: Check Prettier formatting
         run: npm run format:check
+
+      # 7. Run tests with Vitest in CI mode
+      - name: Run Vitest tests
+        run: npm run test:run -- --reporter=verbose --coverage
