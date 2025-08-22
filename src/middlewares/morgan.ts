@@ -20,7 +20,15 @@ morgan.token(
 // ------------------------------------------------------------
 // Format definitions
 // ------------------------------------------------------------
-const developmentFormat = ':method :url :status :response-time ms - :res[content-length]';
+
+// const developmentFormat = ':method :url :status :response-time ms - :res[content-length]';
+const developmentFormat = (
+  tokens: TokenIndexer<Request, Response>,
+  req: Request,
+  res: Response
+): string => {
+  return `${tokens.method(req, res) ?? 'UNKNOWN'} ${tokens.url(req, res) ?? 'UNKNOWN'} ${tokens.status(req, res) ?? 'UNKNOWN'} ${tokens['response-time'](req, res) ?? '0'} ms - ${tokens.res(req, res, 'content-length') ?? '0'}`;
+};
 
 const productionFormat = (
   tokens: TokenIndexer<Request, Response>,
@@ -50,7 +58,7 @@ const format = (tokens: TokenIndexer<Request, Response>, req: Request, res: Resp
   if (process.env.NODE_ENV === 'production') {
     return productionFormat(tokens, req, res);
   } else {
-    return developmentFormat;
+    return developmentFormat(tokens, req, res);
   }
 };
 
