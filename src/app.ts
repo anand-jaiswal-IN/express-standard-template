@@ -2,11 +2,11 @@ import { asyncHandler, errorHandler, notFoundHandler } from '#middlewares/errorH
 import morganMiddleware from '#middlewares/morgan.js';
 import { requestLoggerMiddleware } from '#middlewares/requestLogger.js';
 import { logger } from '#utils/logger.js';
-// import compression from 'compression';
-// import cors from 'cors';
+import compression from 'compression';
+import cors from 'cors';
 import express, { Request, Response } from 'express';
 import rateLimit from 'express-rate-limit';
-// import helmet from 'helmet';
+import helmet from 'helmet';
 
 // Create Express app
 const app = express();
@@ -15,10 +15,48 @@ const app = express();
 app.set('trust proxy', 1);
 
 // Security middleware
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        imgSrc: ["'self'", 'data:', 'https:'],
+        scriptSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+      },
+    },
+    crossOriginEmbedderPolicy: false,
+  })
+);
 
-// app.use(helmet());
-// app.use(cors());
-// app.use(compression());
+// CORS configuration
+app.use(
+  cors({
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    origin:
+      process.env.NODE_ENV === 'production'
+        ? (process.env.ALLOWED_ORIGINS?.split(',') ?? ['https://yourdomain.com'])
+        : ['http://localhost:3000', 'http://localhost:3001', 'http://127.0.0.1:3000'],
+  })
+);
+
+// Compression middleware
+app.use(
+  compression({
+    filter: (req, res) => {
+      // Don't compress responses with this request header
+      if (req.headers['x-no-compression']) {
+        return false;
+      }
+      // Use default compression filter
+      return compression.filter(req, res);
+    },
+    level: 6, // Compression level (0-9, higher = more compression but slower)
+    threshold: 1024, // Only compress responses larger than 1KB
+  })
+);
 
 // Rate limiting
 const limiter = rateLimit({
