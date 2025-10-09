@@ -19,8 +19,8 @@ This project provides a robust and scalable starting point for building RESTful 
 1.  **Clone the repository:**
 
     ```bash
-    git clone https://github.com/anand-jaiswal-IN/express-standard-template2.git
-    cd express-standard-template2
+    git clone https://github.com/anand-jaiswal-IN/express-standard-template.git
+    cd express-standard-template
     ```
 
 2.  **Install dependencies:**

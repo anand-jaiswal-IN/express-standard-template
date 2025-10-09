@@ -1,5 +1,5 @@
 {
-  "name": "express-standard-template2",
+  "name": "express-standard-template",
   "version": "1.0.0",
   "description": "An Express.js template with TypeScript, ESLint, Prettier, Vitest, Husky, Rate Limiter, Morgan, Cors and Helmet",
   "type": "module",
@@ -22,15 +22,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anand-jaiswal-IN/express-standard-template2.git"
+    "url": "git+https://github.com/anand-jaiswal-IN/express-standard-template.git"
   },
   "keywords": [],
   "author": "Anand Jaiswal",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/anand-jaiswal-IN/express-standard-template2/issues"
+    "url": "https://github.com/anand-jaiswal-IN/express-standard-template/issues"
   },
-  "homepage": "https://github.com/anand-jaiswal-IN/express-standard-template2#readme",
+  "homepage": "https://github.com/anand-jaiswal-IN/express-standard-template#readme",
   "imports": {
     "#*": "./src/*"
   },
